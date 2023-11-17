@@ -32,14 +32,16 @@ app.post("/file", function (request, response) {
 
 // retrieving the added text files list from folder
 app.get("/file", function (request, response) {
-    fs.readdir("./textFile/", (err, file) => {
+    const directoryPath = path.join(__dirname, 'textFile');
+    fs.readdir(directoryPath, (err, files) => {
         if (err) {
-            console.log("files not found" + err);
-            response.send("files not found" + err);
+            console.log("Files not found: " + err);
+            response.send("Files not found: " + err);
+        } else {
+            console.log("Available files: " + files);
+            response.send(files);
         }
-        console.log("Available files:" + file);
-        response.send(file);
     });
-})
+});
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} `));
