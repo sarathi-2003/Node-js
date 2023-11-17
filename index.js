@@ -1,10 +1,8 @@
-import express from "express";
-import * as dotenv from 'dotenv';
-import fs from 'fs';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 
-
+const express = require('express')
+const dotenv = require('dotenv')
+const path = require('path');
+const fs = require('fs');
 
 dotenv.config();
 const app = express();
@@ -35,16 +33,20 @@ app.post("/file", function (request, response) {
 });
 
 // retrieving the added text files list from folder
-const __dirname = dirname(fileURLToPath(import.meta.url));
+
 
 app.get("/file", function (request, response) {
-    fs.readdir(__dirname + "/textFile/", (err, file) => {
+    // Construct an absolute path to the textFile directory
+    const textFilePath = path.resolve(__dirname, 'textFile');
+
+    fs.readdir(textFilePath, (err, files) => {
         if (err) {
-            console.log("files not found" + err);
-            response.send("files not found" + err);
+            console.error("Error reading files:", err);
+            response.status(500).send("Error reading files: " + err);
+        } else {
+            console.log("Available files:", files);
+            response.send(files);
         }
-        console.log("Available files:" + file);
-        response.send(file);
     });
 });
 
