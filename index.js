@@ -37,7 +37,7 @@ app.post("/file", function (request, response) {
 
 app.get("/file", function (request, response) {
     // Construct an absolute path to the textFile directory
-    const textFilePath = path.resolve(__dirname, 'textFile');
+    const textFilePath = path.resolve(__dirname, 'textfile');
 
     fs.readdir(textFilePath, (err, files) => {
         if (err) {
