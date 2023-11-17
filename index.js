@@ -1,10 +1,10 @@
 import express from "express";
 import * as dotenv from 'dotenv';
 import fs from 'fs';
-import path from "path";
-if (!global.__dirname) {
-    global.__dirname = process.cwd();
-  }
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+
 
 dotenv.config();
 const app = express();
@@ -35,16 +35,16 @@ app.post("/file", function (request, response) {
 });
 
 // retrieving the added text files list from folder
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 app.get("/file", function (request, response) {
-    const directoryPath = path.join(__dirname, 'textFile');
-    fs.readdir(directoryPath, (err, files) => {
+    fs.readdir(__dirname + "/textFile/", (err, file) => {
         if (err) {
-            console.log("Files not found: " + err);
-            response.send("Files not found: " + err);
-        } else {
-            console.log("Available files: " + files);
-            response.send(files);
+            console.log("files not found" + err);
+            response.send("files not found" + err);
         }
+        console.log("Available files:" + file);
+        response.send(file);
     });
 });
 
