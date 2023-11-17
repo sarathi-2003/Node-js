@@ -2,6 +2,9 @@ import express from "express";
 import * as dotenv from 'dotenv';
 import fs from 'fs';
 import path from "path";
+if (!global.__dirname) {
+    global.__dirname = process.cwd();
+  }
 
 dotenv.config();
 const app = express();
